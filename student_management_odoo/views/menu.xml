@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <!-- Top Level Menu -->
+        <menuitem id="menu_student_management_root" name="Student Management" sequence="10"/>
+
+        <!-- Sub Menus -->
+        <menuitem id="menu_student_student"
+                  name="Students"
+                  parent="menu_student_management_root"
+                  action="action_student_student"
+                  sequence="10"/>
+
+        <menuitem id="menu_student_course"
+                  name="Courses"
+                  parent="menu_student_management_root"
+                  action="action_student_course"
+                  sequence="20"/>
+    </data>
+</odoo>

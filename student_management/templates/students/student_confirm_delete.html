@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Delete - {{ student.first_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-0 rounded-4 overflow-hidden">
+            <div class="bg-danger" style="height: 6px;"></div>
+            <div class="card-body text-center p-5">
+                <div class="d-inline-flex bg-danger bg-opacity-10 text-danger p-4 rounded-circle mb-4">
+                    <i class="fa-solid fa-triangle-exclamation fa-2xl" style="font-size: 3rem;"></i>
+                </div>
+                <h2 class="fw-bold mb-3">Delete Student Record?</h2>
+                <p class="text-muted fs-5 mb-5 px-md-4">
+                    You are about to permanently delete the profile for <br>
+                    <strong class="text-dark fs-4 mt-2 d-inline-block">{{ student.first_name }} {{ student.last_name }}</strong> <br>
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary border mt-2 px-3 py-2 fs-6">{{ student.enrollment_no }}</span>
+                </p>
+                
+                <form method="POST" class="d-flex justify-content-center gap-3">
+                    {% csrf_token %}
+                    <a href="{% url 'student_list' %}" class="btn btn-light px-4 py-3 border border-2 fw-bold text-muted" style="min-width: 140px;">Cancel</a>
+                    <button type="submit" class="btn btn-danger px-4 py-3 fw-bold border-danger border-2 shadow-sm" style="min-width: 140px;">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

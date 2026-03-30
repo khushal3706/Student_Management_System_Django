@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - SMS{% endblock %}
+
+{% block content %}
+<!-- Welcome Dashboard Header -->
+<div class="row mb-5 align-items-center">
+    <div class="col-lg-8">
+        <h1 class="fw-bold" style="letter-spacing: -1px; color: var(--dark);">
+            Welcome back, <span style="background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Administrator</span> 👋
+        </h1>
+        <p class="text-muted fs-5 mb-0">Manage your students, track enrollments, and drive success.</p>
+    </div>
+    <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+        <a href="{% url 'student_create' %}" class="btn btn-primary btn-lg rounded-pill px-4 shadow">
+            <i class="fa-solid fa-user-plus me-2"></i> Enroll New Student
+        </a>
+    </div>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card border-0 h-100 p-4" style="background: linear-gradient(145deg, #ffffff, #f0f9ff);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4">
+                    <i class="fa-solid fa-users fs-2"></i>
+                </div>
+                <div>
+                    <h5 class="text-muted mb-1 fw-bold fs-6 text-uppercase tracking-wider">Total Students</h5>
+                    <h2 class="mb-0 fw-bold">{{ students|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 h-100 p-4" style="background: linear-gradient(145deg, #ffffff, #fdf4ff);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-success text-success bg-opacity-10 p-3 rounded-4">
+                    <i class="fa-solid fa-check-circle fs-2"></i>
+                </div>
+                <div>
+                    <h5 class="text-muted mb-1 fw-bold fs-6 text-uppercase tracking-wider">Active Status</h5>
+                    <h2 class="mb-0 fw-bold">100%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 h-100 p-4" style="background: linear-gradient(145deg, #ffffff, #fffbeb);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-warning text-warning bg-opacity-10 p-3 rounded-4">
+                    <i class="fa-solid fa-building-columns fs-2"></i>
+                </div>
+                <div>
+                    <h5 class="text-muted mb-1 fw-bold fs-6 text-uppercase tracking-wider">Campus Division</h5>
+                    <h2 class="mb-0 fw-bold">Main</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Data Table -->
+<div class="card border-0">
+    <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
+        <h4 class="fw-bold mb-0"><i class="fa-solid fa-list-ul me-2 text-primary"></i> Student Directory</h4>
+    </div>
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-3">Student info</th>
+                        <th>Enrollment No.</th>
+                        <th>Division</th>
+                        <th class="text-end pe-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="ps-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 45px; height: 45px; font-size: 1.2rem;">
+                                    {{ student.first_name|first }}{{ student.last_name|first }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark">{{ student.first_name }} {{ student.last_name }}</div>
+                                    <div class="text-muted small"><i class="fa-regular fa-envelope me-1"></i> {{ student.email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary border px-2 py-1 fs-6">
+                                {{ student.enrollment_no }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-info bg-opacity-10 text-info border border-info px-3 py-1 rounded-pill fw-semibold">
+                                Div {{ student.division }}
+                            </span>
+                        </td>
+                        <td class="text-end pe-3">
+                            <div class="btn-group shadow-sm border border-light rounded-3">
+                                <a href="{% url 'student_update' student.pk %}" class="btn btn-light text-primary border-0 btn-sm px-3 py-2" data-bs-toggle="tooltip" title="Edit Student">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <div class="vr"></div>
+                                <a href="{% url 'student_delete' student.pk %}" class="btn btn-light text-danger border-0 btn-sm px-3 py-2" data-bs-toggle="tooltip" title="Delete Student">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="mb-3">
+                                <div class="d-inline-flex bg-light text-muted rounded-circle p-4 mb-3">
+                                    <i class="fa-solid fa-folder-open fs-1"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-dark">No students found</h4>
+                            <p class="text-muted mx-auto" style="max-width: 400px;">Your directory is empty. Start adding students to see them appear in this dashboard.</p>
+                            <a href="{% url 'student_create' %}" class="btn btn-primary mt-2 px-4 shadow-sm">Add First Student</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
